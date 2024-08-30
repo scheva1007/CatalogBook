@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <h3 style="margin-left: 250px;">Список книг</h3>
 <table border="2">
     <thead>
@@ -21,3 +24,4 @@
         @endforeach
     </tbody>
 </table>
+@endsection
