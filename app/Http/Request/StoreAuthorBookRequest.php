@@ -26,7 +26,7 @@ class StoreAuthorBookRequest extends FormRequest
         return [
             'title' => 'required|string|max:100',
             'short_description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg, png,jpg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }

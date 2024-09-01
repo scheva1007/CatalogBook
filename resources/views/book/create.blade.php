@@ -12,6 +12,11 @@
     <input type="text" name="short_description" class="form-control" style="width: 300px;">
     </div>
     <div class="form-group">
+    <label for="image">Зображення:</label>
+        <br>
+    <input type="file" name="image" accept="image/*">
+    </div>
+    <div class="form-group">
         <label>Обрати автора:</label>
         <select name="author[]" multiple required class="form-control" style="width: 300px;">
             @foreach($authors as $author)
