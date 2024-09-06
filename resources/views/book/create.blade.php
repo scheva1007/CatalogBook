@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<form method="post" action="{{route('book.store')}}">
+<form method="post" action="{{route('book.store')}}" enctype="multipart/form-data">
     @csrf
     <div class="form-group">
     <label>Назва:</label>

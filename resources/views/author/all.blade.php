@@ -15,7 +15,7 @@
     @foreach($author as $item)
         <tr>
             <td>{{$loop->iteration}}</td>
-            <td>{{$item->surname}}</td>
+            <td><a href="{{route('author.show', $item->id)}}">{{$item->surname}}</a> </td>
             <td>{{$item->name}}</td>
             <td>{{$item->middle_name ?? ''}}</td>
         </tr>

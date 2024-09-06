@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Request\StoreAuthorBookRequest;
 use App\Http\Request\StoreAuthorRequest;
+use App\Http\Request\UpdateAuthorRequest;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\Request;
@@ -40,5 +41,31 @@ class AuthorController extends Controller
         return redirect()->route('author.all');
     }
 
+    public function show(Author $author)
+    {
+        return view('author.show', compact('author'));
+    }
 
+    public function edit(Author $authors)
+    {
+        return view('author.edit', compact('authors'));
+    }
+
+    public function update(UpdateAuthorRequest $request, Author $author)
+    {
+        $author->update([
+            'surname' => $request->surname,
+            'name' => $request->name,
+            'middle_name' => $request->middle_name
+        ]);
+
+        return redirect()->route('author.all');
+    }
+
+    public function destroy(Author $author)
+    {
+        $author->delete();
+
+        return redirect()->route('author.all');
+    }
 }
