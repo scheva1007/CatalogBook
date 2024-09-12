@@ -28,6 +28,7 @@
         <button type="submit" class="btn btn-primary">Видалити</button>
         </form>
     </div>
+
 @endsection
 
 

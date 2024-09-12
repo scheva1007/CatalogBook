@@ -10,11 +10,25 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function allBooks()
+    public function allBooks(Request $request)
     {
-        $book = Book::all();
+        $query = Book::query();
 
-        return view('book.index', compact('book'));
+        if ($request->has('author')) {
+            $authorIds = $request->input('author');
+            $query->whereHas('author', function ($q) use ($authorIds){
+                $q->whereIn('author_id', $authorIds);
+            })->get();
+        }
+
+        if($request->has('title') && $request->input('title') != null) {
+            $search = $request->input('title');
+            $query->where('title', 'LIKE', '%' . $search . '%');
+        }
+        $book = $query->get();
+        $allAuthors = Author::whereHas('book')->get();
+
+        return view('book.index', compact('book', 'allAuthors'));
     }
 
     public function create()
@@ -41,11 +55,12 @@ class BookController extends Controller
         return redirect()->route('book.all');
     }
 
-    public function show(Book $book)
+    public function show(Request $request, Book $book)
     {
         $book->load('author');
 
-        return view('book.show', compact('book'));
+
+        return view('book.show', compact('book', ));
     }
 
     public function edit(Book $book)

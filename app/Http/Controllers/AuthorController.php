@@ -13,16 +13,22 @@ class AuthorController extends Controller
 {
     public function index()
     {
-        $author = Author::all();
 
-        return view('author.index', compact('author'));
+        return view('author.index');
     }
 
-    public function allAuthors()
+    public function allAuthors(Request $request)
     {
-        $author = Author::all();
+        $uniqueNames = Author::select('name')->distinct()->get();
+        $query = Author::query();
 
-        return view('author.all', compact('author'));
+        if ($request->has('name')) {
+            $nameFilter = $request->input('name');
+            $query->whereIn('name', $nameFilter);
+        }
+        $author = $query->get();
+
+        return view('author.all', compact('author', 'uniqueNames'));
     }
 
     public function create()

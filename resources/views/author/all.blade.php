@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+    <div style="display: flex">
+        <div style="flex: 2">
 <h4>Список авторів:</h4>
 <table border="2">
     <thead>
     <tr>
-        <th width="10px">№п/п</th>
+        <th width="30px">№</th>
         <th width="60px">Прізвище</th>
         <th width="60px">Ім'я</th>
         <th width="70px">По-батькові</th>
@@ -22,4 +24,25 @@
     @endforeach
     </tbody>
 </table>
+        </div>
+        <div style="flex: 2; margin-left: 30px;">
+            <form action="{{route('author.all')}}" method="GET">
+                <div class="form-group">
+                    <label>Імена:</label>
+                    @foreach($uniqueNames as $item)
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="name[]" value="{{$item->name}}"
+                            id="name_{{$item->name}}"
+                            @if(in_array($item->name, request()->input('name', []))) checked
+                                   @endif>
+                            <label class="form-check-label" for="name_{{$item->name}}">
+                                {{$item->name}}
+                            </label>
+                        </div>
+                    @endforeach
+                    <button type="submit" class="btn btn-primary">Застосувати</button>
+                </div>
+            </form>
+        </div>
+    </div>
 @endsection
