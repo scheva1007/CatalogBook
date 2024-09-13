@@ -11,6 +11,7 @@
         <th width="60px">Прізвище</th>
         <th width="60px">Ім'я</th>
         <th width="70px">По-батькові</th>
+        <th width="70px">Видалити</th>
     </tr>
     </thead>
     <tbody>
@@ -20,6 +21,9 @@
             <td><a href="{{route('author.show', $item->id)}}">{{$item->surname}}</a> </td>
             <td>{{$item->name}}</td>
             <td>{{$item->middle_name ?? ''}}</td>
+            <td>
+                <button class="delete-author" data-id="{{$item->id}}"><i class="fas fa-trash"></i></button>
+            </td>
         </tr>
     @endforeach
     </tbody>
@@ -45,4 +49,32 @@
             </form>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.delete-author').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    let authorId = this.getAttribute('data-id');
+                    if (confirm('Ви впевнені, що хочете видалити цього автора?')) {
+                        fetch(`/author/${authorId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert('Автор успішно видалений!');
+                                    location.reload();
+                                } else {
+                                    alert('Сталася помилка при видаленні.');
+                                }
+                            });
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

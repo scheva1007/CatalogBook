@@ -72,6 +72,6 @@ class AuthorController extends Controller
     {
         $author->delete();
 
-        return redirect()->route('author.all');
+        return response()->json(['success' => true]);
     }
 }
