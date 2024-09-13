@@ -4,13 +4,13 @@
     <form method="post" action="{{route('author.update', $author->id)}}">
     @csrf
     @method('PUT')
-    <div class="indent">
+    <div class="author-indent">
         <input type="text" name="surname" value="{{$author->surname}}" class="width-field">
     </div>
-    <div class="indent">
+    <div class="author-indent">
         <input type="text" name="name" value="{{$author->name}}" class="width-field">
     </div>
-    <div class="indent">
+    <div class="author-indent">
         <input type="text" name="middle_name" value="{{$author->middle_name}}" class="width-field">
     </div>
     <button type="submit" class="btn btn-primary">Зберегти</button>

@@ -40,7 +40,7 @@
                             </label>
                         </div>
                     @endforeach
-                    <button type="submit" class="btn btn-primary">Застосувати</button>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 15px;">Застосувати</button>
                 </div>
             </form>
         </div>
