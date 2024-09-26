@@ -26,7 +26,7 @@ class AuthorController extends Controller
             $nameFilter = $request->input('name');
             $query->whereIn('name', $nameFilter);
         }
-        $author = $query->get();
+        $author = $query->paginate(10);
 
         return view('author.all', compact('author', 'uniqueNames'));
     }
@@ -54,7 +54,9 @@ class AuthorController extends Controller
 
     public function edit(Author $author)
     {
-        return view('author.edit', compact('author'));
+        return response()->json([
+            'author' => $author
+        ]);
     }
 
     public function update(UpdateAuthorRequest $request, Author $author)
@@ -65,7 +67,10 @@ class AuthorController extends Controller
             'middle_name' => $request->middle_name
         ]);
 
-        return redirect()->route('author.all');
+        return response()->json([
+            'success' => true,
+            'author' => $author
+        ]);
     }
 
     public function destroy(Author $author)

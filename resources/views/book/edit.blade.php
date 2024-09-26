@@ -29,6 +29,6 @@
                 @endif
             <input type="file" name="image" accept="image/*">
         </div>
-        <button type="submit" class="btb btn-primary mb-3">Зберегти</button>
+        <button type="submit" class="btn btn-primary mb-3">Зберегти</button>
     </form>
 @endsection

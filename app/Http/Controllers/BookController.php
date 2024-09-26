@@ -25,7 +25,7 @@ class BookController extends Controller
             $search = $request->input('title');
             $query->where('title', 'LIKE', '%' . $search . '%');
         }
-        $book = $query->get();
+        $book = $query->paginate(10);
         $allAuthors = Author::whereHas('book')->get();
 
         return view('book.index', compact('book', 'allAuthors'));
@@ -59,14 +59,18 @@ class BookController extends Controller
     {
         $book->load('author');
 
-
         return view('book.show', compact('book', ));
     }
 
     public function edit(Book $book)
     {
         $authors=Author::all();
-        return view('book.edit', compact('book', 'authors'));
+        $book->load('author');
+
+        return response()->json([
+            'book' => $book,
+            'authors' => $authors,
+        ]);
     }
 
     public function update(UpdateBookRequest $request, Book $book)
@@ -76,9 +80,18 @@ class BookController extends Controller
             'short_description' => $request->short_description,
             'image' => $request->hasFile('image') ? $request->file('image')->store('news_photos', 'public') : $book->image,
         ]);
-        $book->author()->sync($request->input('author'));
 
-       return redirect()->route('book.all');
+        if ($request->has('author')) {
+            $book->author()->sync($request->input('author')); // Синхронизируем авторов
+        }
+
+        $updatedAuthors = $book->author()->get();
+
+       return response()->json([
+           'success' => true,
+           'book' => $book,
+           'authors' => $updatedAuthors,
+       ]);
     }
 
     public function destroy(Book $book)
@@ -86,6 +99,6 @@ class BookController extends Controller
 
         $book->delete();
 
-        return redirect()->route('book.all');
+        return response()->json(['success' => true]);
     }
 }
